@@ -36,7 +36,7 @@ if st.sidebar.checkbox("Raw Data"):
 	st.dataframe(census_df)
 
 st.sidebar.subheader("Select Visualization Method")
-graph = st.sidebar.multiselect("Select Charts/Plots to show:", ("Histogram", "Pie Chart", "Boxplot", "Count Plot", "Correlation Heatmap", "Pair Plots, Scatter Plot"))
+graph = st.sidebar.multiselect("Select Charts/Plots to show:", ("Histogram", "Pie Chart", "Boxplot", "Count Plot", "Correlation Heatmap", "Pair Plots", "Scatter Plot"))
 
 if graph == "Histogram":
 	st.subheader("Histogram")
@@ -53,23 +53,23 @@ if graph == "Boxplot":
     st.pyplot()
 if graph == "Count Plot":
     st.subheader("Count plot")
-    sns.countplot(x = 'GlassType', data = glass_df)
+    sns.countplot(x = 'income', data = census_df)
     st.pyplot()
 if graph=="Pie Chart":
     st.subheader("Pie Chart")
-    pie_data = glass_df['GlassType'].value_counts()
+    pie_data = census_df['income'].value_counts()
     plt.figure(figsize = (8, 8), dpi=96)
     plt.pie(pie_data, labels = pie_data.index, autopct = '%1.2f%%', startangle = 30, explode = np.linspace(.06, .16, 6))
     st.pyplot()
 if graph=="Correlation Heatmap":
     st.subheader("Correlation Heatmap")
     plt.figure(figsize = (8, 8), dpi=96)
-    ax = sns.heatmap(glass_df.corr(), annot = True) # Creating an object of seaborn axis and storing it in 'ax' variable
+    ax = sns.heatmap(census_df.corr(), annot = True) # Creating an object of seaborn axis and storing it in 'ax' variable
     bottom, top = ax.get_ylim() # Getting the top and bottom margin limits.
     ax.set_ylim(bottom + 0.5, top - 0.5) # Increasing the bottom and decreasing the top margins respectively.
     st.pyplot()
 if graph=="Pair Plots":
     st.subheader("Pair Plots")
     plt.figure(figsize = (16, 16))
-    sns.pairplot(glass_df)
+    sns.pairplot(census_df)
     st.pyplot()
