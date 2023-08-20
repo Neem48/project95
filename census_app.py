@@ -14,7 +14,6 @@ def load_data():
 
 	for i in range(df.shape[1]):
 	  df.rename(columns={i:column_name[i]},inplace=True)
-	df.head()
 
 	df['native-country'] = df['native-country'].replace(' ?',np.nan)
 	df['workclass'] = df['workclass'].replace(' ?',np.nan)
@@ -40,24 +39,27 @@ graph = st.sidebar.multiselect("Select Charts/Plots to show:", ("Histogram", "Pi
 
 if graph == "Histogram":
 	st.subheader("Histogram")
-	x = st.sidebar.selectbox("Select column to draw histogram of:",())
+	x = st.sidebar.selectbox("Select column to draw histogram of:",('age', 'workclass', 'education', 'education-years', 'marital-status', 'occupation', 'relationship', 'race','gender','capital-gain', 'capital-loss', 'hours-per-week', 'native-country', 'income'))
 	plt.figure(figsize=(16,4))
 	plt.hist(census_df[x],bins='sturges', edgecolor = "chocolate")
 	st.pyplot()
 if graph == "Boxplot":
     st.subheader("Box Plot")
-    columns = st.sidebar.selectbox("Select the column to create its box plot", df.columns)
+    columns = st.sidebar.selectbox("Select the column to create its box plot", ('age', 'workclass', 'education', 'education-years', 'marital-status', 'occupation', 'relationship', 'race','gender','capital-gain', 'capital-loss', 'hours-per-week', 'native-country', 'income'))
     plt.figure(figsize = (16, 4))
     plt.title(f"Box plot for {columns}")
-    sns.boxplot(glass_df[columns])
+    hue = st.sidebar.selectbox("Select grouping", ('age', 'workclass', 'education', 'education-years', 'marital-status', 'occupation', 'relationship', 'race','gender','capital-gain', 'capital-loss', 'hours-per-week', 'native-country', 'income'))
+    sns.boxplot(census_df[columns], hue=hue)
     st.pyplot()
 if graph == "Count Plot":
     st.subheader("Count plot")
-    sns.countplot(x = 'income', data = census_df)
+    columns = st.sidebar.selectbox("Select the column to create its count plot", ('age', 'workclass', 'education', 'education-years', 'marital-status', 'occupation', 'relationship', 'race','gender','capital-gain', 'capital-loss', 'hours-per-week', 'native-country', 'income'))
+    sns.countplot(x = columns, data = census_df)
     st.pyplot()
 if graph=="Pie Chart":
     st.subheader("Pie Chart")
-    pie_data = census_df['income'].value_counts()
+    columns = st.sidebar.selectbox("Select the column to create its pie chart", ('age', 'workclass', 'education', 'education-years', 'marital-status', 'occupation', 'relationship', 'race','gender','capital-gain', 'capital-loss', 'hours-per-week', 'native-country', 'income'))
+    pie_data = census_df[columns].value_counts()
     plt.figure(figsize = (8, 8), dpi=96)
     plt.pie(pie_data, labels = pie_data.index, autopct = '%1.2f%%', startangle = 30, explode = np.linspace(.06, .16, 6))
     st.pyplot()
